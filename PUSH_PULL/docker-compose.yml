@@ -1,0 +1,31 @@
+version: '3'
+services:
+  server:
+    build: .
+    environment:
+    - SELF_HOSTNAME=tcp://*:5046
+    - LOG_LEVEL=10 
+    entrypoint:
+      - python
+      - server.py
+  middle:
+    build: .
+    environment:
+    - SERVER_HOSTNAME=tcp://server:5046
+    - SELF_HOSTNAME=tcp://*:5046
+    - LOG_LEVEL=10 
+    entrypoint:
+    - python
+    - middle.py
+    links:
+      - server
+  client:
+    build: .
+    environment:
+    - SERVER_HOSTNAME=tcp://middle:5046
+    - LOG_LEVEL=10 
+    entrypoint:
+      - python
+      - client.py
+    links:
+      - middle
