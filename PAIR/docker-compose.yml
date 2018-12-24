@@ -7,7 +7,6 @@ services:
     entrypoint:
       - python
       - server.py
-
   client:
     build: .
     environment:
