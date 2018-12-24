@@ -1,0 +1,20 @@
+version: '3'
+services:
+  server:
+    build: .
+    environment:
+    - HOSTNAME=tcp://*:5046
+    entrypoint:
+      - python
+      - server.py
+
+  client:
+    build: .
+    environment:
+    - HOSTNAME=tcp://server:5046
+    entrypoint:
+      - python
+      - client.py
+    links:
+      - server
+    
